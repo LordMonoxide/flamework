@@ -50,6 +50,9 @@ public class Loader extends ClassLoader {
     try {
       b = loadClassData(file + ".class");
       
+      ClassRewriter r = new ClassRewriter(getClass().getClassLoader().getResourceAsStream(file + ".class"));
+      r.parse();
+      
       byte n[] = file.getBytes();
       byte b2[][] = new byte[3][];
       b2[0] = new byte[14];
