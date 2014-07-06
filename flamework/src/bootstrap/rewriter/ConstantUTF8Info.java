@@ -14,11 +14,10 @@ public class ConstantUTF8Info extends ConstantPool {
     length = r.readU2();
     data   = r.read(length);
     
-    System.out.println("Read UTF-8 data: " + this);
+    //System.out.println("Read UTF-8 data: " + this);
   }
   
   public boolean contains(String data) {
-    System.out.println(toString() + ' ' + data);
     return toString().contains(data);
   }
   
@@ -33,9 +32,7 @@ public class ConstantUTF8Info extends ConstantPool {
   }
   
   public void replace(String from, String to) throws UnsupportedEncodingException {
-    System.out.println("From: " + this);
     data   = toString().replace(from, to).getBytes("UTF-8");
-    System.out.println("To:   " + this);
     length = (short)data.length;
   }
   

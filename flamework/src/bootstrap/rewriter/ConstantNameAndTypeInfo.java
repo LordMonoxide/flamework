@@ -13,8 +13,8 @@ public class ConstantNameAndTypeInfo extends ConstantPool {
     nameIndex       = r.readU2();
     descriptorIndex = r.readU2();
     
-    System.out.println("Name index: " + nameIndex);
-    System.out.println("Descriptor index: " + descriptorIndex);
+    /*System.out.println("Name index: " + nameIndex);
+    System.out.println("Descriptor index: " + descriptorIndex);*/
   }
   
   @Override void put(ByteBuffer out) {

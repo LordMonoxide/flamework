@@ -13,8 +13,8 @@ public class ConstantReferenceInfo extends ConstantPool {
     classIndex       = r.readU2();
     nameAndTypeIndex = r.readU2();
     
-    System.out.println("Class index: " + classIndex);
-    System.out.println("Name and type index: " + nameAndTypeIndex);
+    /*System.out.println("Class index: " + classIndex);
+    System.out.println("Name and type index: " + nameAndTypeIndex);*/
   }
   
   @Override void put(ByteBuffer out) {

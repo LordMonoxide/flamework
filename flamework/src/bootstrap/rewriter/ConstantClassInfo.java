@@ -11,7 +11,7 @@ public class ConstantClassInfo extends ConstantPool {
     
     index = r.readU2();
     
-    System.out.println("Class name index: " + index);
+    //System.out.println("Class name index: " + index);
   }
   
   @Override void put(ByteBuffer out) {

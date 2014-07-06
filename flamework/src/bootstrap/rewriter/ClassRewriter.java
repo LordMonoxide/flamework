@@ -27,15 +27,15 @@ public class ClassRewriter {
     
     int cpsize = readU2();
     
-    System.out.println("Magic: "   + Integer.toHexString(_magic));
+    /*System.out.println("Magic: "   + Integer.toHexString(_magic));
     System.out.println("Version: " + Integer.toHexString(_major) + '.' + Integer.toHexString(_minor));
-    System.out.println("Constant pool size: " + Integer.toHexString(cpsize));
+    System.out.println("Constant pool size: " + Integer.toHexString(cpsize));*/
     
     _cp = new ConstantPool[cpsize - 1];
     
     for(int i = 0; i < _cp.length; i++) {
       int constant = readU1();
-      System.out.println((i + 1) + ": Constant " + constant);
+      //System.out.println((i + 1) + ": Constant " + constant);
       _cp[i] = ConstantPoolType.of(constant).instanciate(this);
     }
     
@@ -43,7 +43,7 @@ public class ClassRewriter {
   }
   
   public void rewrite(String from, String to) throws UnsupportedEncodingException {
-    System.out.println("Rewriting " + from + " to " + to);
+    //System.out.println("Rewriting " + from + " to " + to);
     
     for(ConstantPool constant : _cp) {
       if(constant instanceof ConstantUTF8Info) {
@@ -56,7 +56,7 @@ public class ClassRewriter {
   }
   
   public byte[] commit() throws UnsupportedEncodingException {
-    System.out.println("Committing");
+    //System.out.println("Committing");
     
     ByteBuffer out = ByteBuffer.allocate(10000);
     out.putInt(_magic);
@@ -75,9 +75,9 @@ public class ClassRewriter {
     byte[] b = new byte[out.remaining()];
     out.get(b);
     
-    for(int i = 0; i < b.length; i++) {
+    /*for(int i = 0; i < b.length; i++) {
       System.out.print(Integer.toHexString(b[i] & 0x000000FF) + ' ');
-    }
+    }*/
     
     return b;
   }

@@ -11,7 +11,7 @@ public class ConstantStringInfo extends ConstantPool {
     
     stringIndex = r.readU2();
     
-    System.out.println("String index: " + stringIndex);
+    //System.out.println("String index: " + stringIndex);
   }
   
   @Override void put(ByteBuffer out) {

@@ -7,18 +7,15 @@ import java.util.Map;
 import bootstrap.rewriter.ClassRewriter;
 
 public class Loader extends ClassLoader {
-  public static void main(String[] args) throws Exception {
-    Loader loader = new Loader(Loader.class.getClassLoader());
-    loader.addMapping("bootstrap.Test", "bootstrap.TestImpl");
-    TestInterface test = (TestInterface)loader.loadClass("bootstrap.Test").newInstance();
-    System.out.println(test.getClass().getClassLoader());
-    test.test();
-  }
-  
   private Map<String, String> _override = new HashMap<>();
   
   public Loader(ClassLoader parent) {
     super(parent);
+  }
+  
+  @SuppressWarnings("unchecked")
+  public <T> T create(String className) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+    return (T)loadClass(className).newInstance();
   }
   
   public void addMapping(String request, String override) {

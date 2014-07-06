@@ -9,7 +9,7 @@ public abstract class ConstantPool {
   public ConstantPool(ClassRewriter r, ConstantPoolType t) throws IOException {
     type = t;
     
-    System.out.println("Constant type: " + type);
+    //System.out.println("Constant type: " + type);
   }
   
   abstract void put(ByteBuffer out);
