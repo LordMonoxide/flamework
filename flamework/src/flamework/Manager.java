@@ -19,5 +19,8 @@ public class Manager implements InitializerInterface {
   
   public void start() {
     _server = new Server();
+    _server.listen(4000, (success) -> {
+      System.out.println(success);
+    });
   }
 }

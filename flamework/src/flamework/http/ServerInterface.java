@@ -1,7 +1,13 @@
 package flamework.http;
 
-import java.util.concurrent.Future;
-
 public interface ServerInterface {
-  public Future<?> listen(int port);
+  public void listen(int port, Events.Event callback);
+  public void close(Events.Event callback);
+  public void destroy();
+  
+  public static final class Events {
+    private Events() { }
+    
+    public interface Event { public void event(boolean success); }
+  }
 }
