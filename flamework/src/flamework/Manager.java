@@ -22,9 +22,9 @@ public class Manager implements InitializerInterface {
     _server.listen(4000, success -> {
       System.out.println("Listen: " + success);
       
-      _server.close(closeSuccess -> {
+      /*_server.close(closeSuccess -> {
         System.out.println("Closed: " + closeSuccess);
-      });
+      });*/
     });
   }
 }
