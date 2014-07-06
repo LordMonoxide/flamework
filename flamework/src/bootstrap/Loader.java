@@ -1,6 +1,8 @@
 package bootstrap;
 
+import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,8 +16,8 @@ public class Loader extends ClassLoader {
   }
   
   @SuppressWarnings("unchecked")
-  public <T> T create(String className) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-    return (T)loadClass(className).newInstance();
+  public <T> T create(String className) throws InstantiationException, IllegalAccessException, ClassNotFoundException, IOException {
+    return (T)getClass(className, null).newInstance();
   }
   
   public void addMapping(String request, String override) {
@@ -28,7 +30,11 @@ public class Loader extends ClassLoader {
       System.out.println("Overriding class '" + name + "'");
       Class<?> c = findLoadedClass(override);
       if(c == null) {
-        c = getClass(name, override);
+        try {
+          c = getClass(name, override);
+        } catch(IOException e) {
+          e.printStackTrace();
+        }
       }
       
       return c;
@@ -38,24 +44,32 @@ public class Loader extends ClassLoader {
     return super.loadClass(name, false);
   }
   
-  private Class<?> getClass(String name, String override) throws ClassNotFoundException {
-    String file = override.replace('.', '/');
+  private Class<?> getClass(String name, String override) throws ClassNotFoundException, IOException {
+    String file = (override != null ? override : name).replace('.', '/') + ".class";
     byte[] b = null;
     
-    try {
-      ClassRewriter r = new ClassRewriter(getClass().getClassLoader().getResourceAsStream(file + ".class"));
+    if(override != null) {
+      ClassRewriter r = new ClassRewriter(getClass().getClassLoader().getResourceAsStream(file));
       r.parse();
       r.rewrite(override.replace('.', '/'), name.replace('.', '/'));
       r.rewrite(override.substring(override.lastIndexOf('.') + 1), name.substring(name.lastIndexOf('.') + 1));
       b = r.commit();
-      
-      Class<?> c = defineClass(name, b, 0, b.length);
-      resolveClass(c);
-      return c;
-    } catch(IOException e) {
-      e.printStackTrace();
+    } else {
+      b = loadClassData(file);
     }
     
-    return null;
+    Class<?> c = defineClass(name, b, 0, b.length);
+    resolveClass(c);
+    return c;
+  }
+  
+  private byte[] loadClassData(String name) throws IOException {
+    InputStream stream = getClass().getClassLoader().getResourceAsStream(name);
+    int size = stream.available();
+    byte buff[] = new byte[size];
+    DataInputStream in = new DataInputStream(stream);
+    in.readFully(buff);
+    in.close();
+    return buff;
   }
 }
