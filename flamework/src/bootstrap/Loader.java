@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import bootstrap.rewriter.ClassRewriter;
+
 public class Loader extends ClassLoader {
   public static void main(String[] args) throws Exception {
     Loader loader = new Loader(Loader.class.getClassLoader());
