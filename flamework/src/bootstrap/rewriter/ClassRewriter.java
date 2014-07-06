@@ -103,8 +103,8 @@ public class ClassRewriter {
     return n;
   }
   
-  int readU1() throws IOException {
-    return readAsInt(1);
+  byte readU1() throws IOException {
+    return (byte)readAsInt(1);
   }
   
   short readU2() throws IOException {
