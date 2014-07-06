@@ -5,6 +5,6 @@ public class TestImpl implements TestInterface {
     System.out.println("Test");
     
     TestInterface test = new Test();
-    System.out.println(test);
+    test.test();
   }
 }

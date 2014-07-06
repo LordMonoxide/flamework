@@ -1,10 +1,12 @@
 package bootstrap.rewriter;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
 
 public class ConstantUTF8Info extends ConstantPool {
-  public final int    length;
-  public final byte[] data;
+  private short  length;
+  private byte[] data;
   
   public ConstantUTF8Info(ClassRewriter r, ConstantPoolType t) throws IOException {
     super(r, t);
@@ -12,6 +14,34 @@ public class ConstantUTF8Info extends ConstantPool {
     length = r.readU2();
     data   = r.read(length);
     
-    System.out.println("Read UTF-8 data: " + new String(data, "UTF-8"));
+    System.out.println("Read UTF-8 data: " + this);
+  }
+  
+  public boolean contains(String data) {
+    System.out.println(toString() + ' ' + data);
+    return toString().contains(data);
+  }
+  
+  @Override public String toString() {
+    try {
+      return new String(data, "UTF-8");
+    } catch(UnsupportedEncodingException e) {
+      e.printStackTrace();
+    }
+    
+    return null;
+  }
+  
+  public void replace(String from, String to) throws UnsupportedEncodingException {
+    System.out.println("From: " + this);
+    data   = toString().replace(from, to).getBytes("UTF-8");
+    System.out.println("To:   " + this);
+    length = (short)data.length;
+  }
+  
+  @Override void put(ByteBuffer out) {
+    out.put(type.index());
+    out.putShort(length);
+    out.put(data);
   }
 }

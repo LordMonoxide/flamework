@@ -1,6 +1,7 @@
 package bootstrap.rewriter;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 public abstract class ConstantPool {
   public final ConstantPoolType type;
@@ -10,4 +11,6 @@ public abstract class ConstantPool {
     
     System.out.println("Constant type: " + type);
   }
+  
+  abstract void put(ByteBuffer out);
 }

@@ -1,10 +1,11 @@
 package bootstrap.rewriter;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 public class ConstantReferenceInfo extends ConstantPool {
-  public final int classIndex;
-  public final int nameAndTypeIndex;
+  public final short classIndex;
+  public final short nameAndTypeIndex;
   
   public ConstantReferenceInfo(ClassRewriter r, ConstantPoolType t) throws IOException {
     super(r, t);
@@ -14,5 +15,11 @@ public class ConstantReferenceInfo extends ConstantPool {
     
     System.out.println("Class index: " + classIndex);
     System.out.println("Name and type index: " + nameAndTypeIndex);
+  }
+  
+  @Override void put(ByteBuffer out) {
+    out.put(type.index());
+    out.putShort(classIndex);
+    out.putShort(nameAndTypeIndex);
   }
 }
