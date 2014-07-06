@@ -25,28 +25,26 @@ public class Server implements ServerInterface {
   }
   
   public void listen(int port, Events.Event callback) {
-    if(_channel == null) { return; }
+    if(_channel != null) { return; }
     
-    ChannelFuture future = _server.bind(port);
-    future.addListener((f) -> {
+    _server.bind(port).addListener(f -> {
       if(f.isSuccess()) {
-        _channel = future.channel();
+        _channel = ((ChannelFuture)f).channel();
       }
       
-      callback.event(future.isSuccess());
+      callback.event(f.isSuccess());
     });
   }
   
   public void close(Events.Event callback) {
-    if(_channel != null) { return; }
+    if(_channel == null) { return; }
     
-    ChannelFuture future = _channel.close();
-    future.addListener((f) -> {
+    _channel.close().addListener(f -> {
       if(f.isSuccess()) {
         _channel = null;
       }
       
-      callback.event(future.isSuccess());
+      callback.event(f.isSuccess());
     });
   }
   
