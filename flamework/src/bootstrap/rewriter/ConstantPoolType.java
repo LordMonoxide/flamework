@@ -3,17 +3,17 @@ package bootstrap.rewriter;
 import java.lang.reflect.InvocationTargetException;
 
 enum ConstantPoolType {
-  UTF8      ((byte)0x1, "UTF-8", ConstantUTF8Info.class),
-  INTEGER   ((byte)0x3, "Integer", null),
-  FLOAT     ((byte)0x4, "Float", null),
-  LONG      ((byte)0x5, "Long", null),
-  DOUBLE    ((byte)0x6, "Double", null),
-  CLASS     ((byte)0x7, "Class", ConstantClassInfo.class),
-  RSTRING   ((byte)0x8, "String Ref", ConstantStringInfo.class),
-  RFIELD    ((byte)0x9, "Field Ref", ConstantReferenceInfo.class),
-  RMETHOD   ((byte)0xA, "Method Ref", ConstantReferenceInfo.class),
+  UTF8      ((byte)0x1, "UTF-8",         ConstantUTF8Info.class),
+  INTEGER   ((byte)0x3, "Integer",       Constant4ByteInfo.class),
+  FLOAT     ((byte)0x4, "Float",         Constant4ByteInfo.class),
+  LONG      ((byte)0x5, "Long",          Constant8ByteInfo.class),
+  DOUBLE    ((byte)0x6, "Double",        Constant8ByteInfo.class),
+  CLASS     ((byte)0x7, "Class",         ConstantClassInfo.class),
+  RSTRING   ((byte)0x8, "String Ref",    ConstantStringInfo.class),
+  RFIELD    ((byte)0x9, "Field Ref",     ConstantReferenceInfo.class),
+  RMETHOD   ((byte)0xA, "Method Ref",    ConstantReferenceInfo.class),
   RINTERFACE((byte)0xB, "Interface Ref", ConstantReferenceInfo.class),
-  NAMETYPE  ((byte)0xC, "Name/Type", ConstantNameAndTypeInfo.class);
+  NAMETYPE  ((byte)0xC, "Name/Type",     ConstantNameAndTypeInfo.class);
   
   private byte   _val;
   private String _name;
