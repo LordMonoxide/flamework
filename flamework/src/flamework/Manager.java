@@ -19,6 +19,11 @@ public class Manager implements InitializerInterface {
   
   public void start() {
     _server = new Server();
+    
+    _server.events().onError(cause -> {
+      System.err.println("Server error:\n" + cause);
+    });
+    
     _server.listen(4000, success -> {
       System.out.println("Listen: " + success);
       

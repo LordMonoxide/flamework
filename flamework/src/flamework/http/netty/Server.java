@@ -14,6 +14,8 @@ public class Server implements ServerInterface {
   private ServerBootstrap _server;
   private Channel         _channel;
   
+  private Events _events = new Events();
+  
   public Server() {
     _bossGroup = new NioEventLoopGroup();
     _workGroup = new NioEventLoopGroup();
@@ -21,7 +23,11 @@ public class Server implements ServerInterface {
     _server = new ServerBootstrap()
       .group(_bossGroup, _workGroup)
       .channel(NioServerSocketChannel.class)
-      .childHandler(new Initializer());
+      .childHandler(new Initializer(_events));
+  }
+  
+  @Override public Events events() {
+    return _events;
   }
   
   public void listen(int port, Events.Event callback) {
@@ -32,7 +38,7 @@ public class Server implements ServerInterface {
         _channel = ((ChannelFuture)f).channel();
       }
       
-      callback.event(f.isSuccess());
+      callback.execute(f.isSuccess());
     });
   }
   
@@ -44,7 +50,7 @@ public class Server implements ServerInterface {
         _channel = null;
       }
       
-      callback.event(f.isSuccess());
+      callback.execute(f.isSuccess());
     });
   }
   

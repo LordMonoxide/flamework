@@ -7,6 +7,10 @@ public class Server implements ServerInterface {
     System.err.println(this + " should not have been instanciated!");
   }
   
+  @Override public Events events() {
+    return null;
+  }
+  
   @Override public void listen(int port, Events.Event callback) {
     
   }
