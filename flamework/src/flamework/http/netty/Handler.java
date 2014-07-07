@@ -53,12 +53,13 @@ public class Handler extends SimpleChannelInboundHandler<HttpObject> {
         send100Continue(ctx);
       }
       
+      buf.setLength(0);
       buf.append("WELCOME TO THE WILD WILD WEB SERVER\r\n");
       buf.append("===================================\r\n");
       
-      buf.append("VERSION: ").append(request.getProtocolVersion()).append("\r\n");
+      buf.append("VERSION: ").append(request.protocolVersion()).append("\r\n");
       buf.append("HOSTNAME: ").append(HttpHeaders.getHost(request, "unknown")).append("\r\n");
-      buf.append("REQUEST_URI: ").append(request.getUri()).append("\r\n\r\n");
+      buf.append("REQUEST_URI: ").append(request.uri()).append("\r\n\r\n");
       
       HttpHeaders headers = request.headers();
       if(!headers.isEmpty()) {
@@ -70,7 +71,7 @@ public class Handler extends SimpleChannelInboundHandler<HttpObject> {
         buf.append("\r\n");
       }
       
-      QueryStringDecoder queryStringDecoder = new QueryStringDecoder(request.getUri());
+      QueryStringDecoder queryStringDecoder = new QueryStringDecoder(request.uri());
       Map<String, List<String>> params = queryStringDecoder.parameters();
       if(!params.isEmpty()) {
         for(Map.Entry<String, List<String>> p : params.entrySet()) {
@@ -127,7 +128,7 @@ public class Handler extends SimpleChannelInboundHandler<HttpObject> {
   }
   
   private static void appendDecoderResult(StringBuilder buf, HttpObject o) {
-    DecoderResult result = o.getDecoderResult();
+    DecoderResult result = o.decoderResult();
     if(result.isSuccess()) {
       return;
     }
@@ -141,7 +142,7 @@ public class Handler extends SimpleChannelInboundHandler<HttpObject> {
     // Decide whether to close the connection or not.
     boolean keepAlive = HttpHeaders.isKeepAlive(request);
     // Build the response object.
-    FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, currentObj.getDecoderResult().isSuccess() ? HttpResponseStatus.OK : HttpResponseStatus.BAD_REQUEST, Unpooled.copiedBuffer(buf.toString(), CharsetUtil.UTF_8));
+    FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, currentObj.decoderResult().isSuccess() ? HttpResponseStatus.OK : HttpResponseStatus.BAD_REQUEST, Unpooled.copiedBuffer(buf.toString(), CharsetUtil.UTF_8));
     
     response.headers().set(CONTENT_TYPE, "text/plain; charset=UTF-8");
     
