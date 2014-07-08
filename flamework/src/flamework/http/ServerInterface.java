@@ -14,10 +14,10 @@ public interface ServerInterface {
     private final ConcurrentLinkedQueue<CloseEvent  > _close   = new ConcurrentLinkedQueue<>();
     private final ConcurrentLinkedQueue<RequestEvent> _request = new ConcurrentLinkedQueue<>();
     
-    public void onError  (ErrorEvent   callback) { _error  .add(callback); }
-    public void onBind   (BindEvent    callback) { _bind   .add(callback); }
-    public void onClose  (CloseEvent   callback) { _close  .add(callback); }
-    public void onRequest(RequestEvent callback) { _request.add(callback); }
+    public Events onError  (ErrorEvent   callback) { _error  .add(callback); return this; }
+    public Events onBind   (BindEvent    callback) { _bind   .add(callback); return this; }
+    public Events onClose  (CloseEvent   callback) { _close  .add(callback); return this; }
+    public Events onRequest(RequestEvent callback) { _request.add(callback); return this; }
     
     public void raiseError(Throwable cause) {
       for(ErrorEvent callback : _error) {
