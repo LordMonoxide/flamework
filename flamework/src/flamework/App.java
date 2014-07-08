@@ -6,14 +6,14 @@ import flamework.http.Server;
 import flamework.http.ServerInterface;
 import flamework.routing.Router;
 
-public class Manager implements InitializerInterface {
+public class App implements InitializerInterface {
   public static void main(String[] args) throws Exception {
     Loader loader = new Loader(Loader.class.getClassLoader());
     
     loader.override("flamework.http.Server", "flamework.http.netty.Server");
     
-    InitializerInterface manager = loader.create("flamework.Manager");
-    manager.start();
+    InitializerInterface app = loader.create("flamework.Manager");
+    app.start();
   }
   
   private ServerInterface _server;
