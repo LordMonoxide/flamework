@@ -4,6 +4,7 @@ import bootstrap.InitializerInterface;
 import bootstrap.Loader;
 import flamework.http.Server;
 import flamework.http.ServerInterface;
+import flamework.routing.Router;
 
 public class Manager implements InitializerInterface {
   public static void main(String[] args) throws Exception {
@@ -16,6 +17,7 @@ public class Manager implements InitializerInterface {
   }
   
   private ServerInterface _server;
+  public final Router router = new Router();
   
   public void start() {
     _server = new Server();
