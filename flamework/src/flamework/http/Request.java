@@ -8,15 +8,15 @@ import java.util.Map;
 public abstract class Request {
   public final String  host;
   public final Method  method;
-  public final String  route;
+  public final String  uri;
   public final Headers headers;
   public final Params  params;
   public final String  content;
   
-  protected Request(String host, Method method, String route, Headers headers, Params params, String content) {
+  protected Request(String host, Method method, String uri, Headers headers, Params params, String content) {
     this.host    = host;
     this.method  = method;
-    this.route   = route;
+    this.uri     = uri;
     this.headers = headers;
     this.params  = params;
     this.content = content;
