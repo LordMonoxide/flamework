@@ -27,20 +27,23 @@ public class Loader extends ClassLoader {
   @Override public Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
     String override = _override.get(name);
     if(override != null) {
-      System.out.println("Overriding class '" + name + "'");
       Class<?> c = findLoadedClass(override);
       if(c == null) {
+        System.out.println("Overriding class '" + name + '\'');
+        
         try {
           c = getClass(name, override);
         } catch(IOException e) {
           e.printStackTrace();
         }
+      } else {
+        System.out.println("Using cached overridden class '" + name + '\'');
       }
       
       return c;
     }
     
-    System.out.println("Loading class '" + name + "'");
+    System.out.println("Loading class '" + name + '\'');
     return super.loadClass(name, false);
   }
   

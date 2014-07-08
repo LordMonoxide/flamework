@@ -36,6 +36,7 @@ public class Handler extends SimpleChannelInboundHandler<HttpObject> {
   
   private HttpRequest   request;
   private StringBuilder buf = new StringBuilder();
+  private StringBuilder _content = new StringBuilder();
   
   Handler(ServerInterface.Events events) {
     _events = events;
@@ -92,6 +93,7 @@ public class Handler extends SimpleChannelInboundHandler<HttpObject> {
       
       ByteBuf content = httpContent.content();
       if(content.isReadable()) {
+        _content.append(content.toString(CharsetUtil.UTF_8));
         buf.append("CONTENT: ");
         buf.append(content.toString(CharsetUtil.UTF_8));
         buf.append("\r\n");
@@ -112,6 +114,8 @@ public class Handler extends SimpleChannelInboundHandler<HttpObject> {
           }
           buf.append("\r\n");
         }
+        
+        _events.raiseRequest(new Request(request, new QueryStringDecoder(request.uri()).parameters(), _content.toString()));
         
         if(!writeResponse(trailer, ctx)) {
           // If keep-alive is off, close the connection once the content is

@@ -24,6 +24,29 @@ public class Manager implements InitializerInterface {
       System.err.println("Server error:\n" + cause);
     });
     
+    _server.events().onRequest(request -> {
+      System.out.println("REQUEST:");
+      System.out.println("HOST: " + request.host);
+      System.out.println("ROUTE: " + request.route);
+      
+      System.out.println("HEADERS:");
+      
+      request.headers.forEach(entry -> {
+        System.out.println(entry.getKey() + " -> " + entry.getValue());
+      });
+      
+      System.out.println();
+      System.out.println("PARAMS:");
+      
+      request.params.forEach(entry -> {
+        System.out.println(entry.getKey() + " -> " + entry.getValue());
+      });
+      
+      System.out.println();
+      System.out.println("CONTENT:");
+      System.out.println(request.content);
+    });
+    
     _server.listen(4000, success -> {
       System.out.println("Listen: " + success);
       
