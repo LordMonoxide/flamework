@@ -11,6 +11,21 @@ public class Router {
   private Map<String, Route> _put    = new HashMap<>();
   private Map<String, Route> _delete = new HashMap<>();
   
+  public void dispatch(Request request) {
+    Route route = null;
+    
+    switch(request.method) {
+      case GET:    route = _get   .get(request.uri); break;
+      case POST:   route = _post  .get(request.uri); break;
+      case PUT:    route = _put   .get(request.uri); break;
+      case DELETE: route = _delete.get(request.uri); break;
+    }
+    
+    if(route != null) {
+      route.destination.execute(request);
+    }
+  }
+  
   public Route route(Request.Method method, String uri, RoutableInterface destination) {
     Route route = new Route(method, uri, destination);
     

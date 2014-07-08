@@ -13,6 +13,10 @@ public class App {
   public App() {
     _server = new Server();
     events  = _server.events();
+    
+    events.onRequest(request -> {
+      router.dispatch(request);
+    });
   }
   
   public void listen(int port) {
