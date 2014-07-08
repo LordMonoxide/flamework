@@ -44,7 +44,18 @@ public class Loader extends ClassLoader {
     }
     
     System.out.println("Loading class '" + name + '\'');
-    return super.loadClass(name, false);
+    
+    if(name.startsWith("java")) {
+      return super.loadClass(name, false);
+    }
+    
+    try {
+      return getClass(name, null);
+    } catch(IOException e) {
+      e.printStackTrace();
+    }
+    
+    return null;
   }
   
   private Class<?> getClass(String name, String override) throws ClassNotFoundException, IOException {
