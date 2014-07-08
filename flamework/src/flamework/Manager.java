@@ -9,7 +9,7 @@ public class Manager implements InitializerInterface {
   public static void main(String[] args) throws Exception {
     Loader loader = new Loader(Loader.class.getClassLoader());
     
-    loader.addMapping("flamework.http.Server", "flamework.http.netty.Server");
+    loader.override("flamework.http.Server", "flamework.http.netty.Server");
     
     InitializerInterface manager = loader.create("flamework.Manager");
     manager.start();
