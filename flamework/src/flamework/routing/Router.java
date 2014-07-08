@@ -6,33 +6,37 @@ import java.util.Map;
 import flamework.http.Request;
 
 public class Router {
-  private Map<String, RoutableInterface> _get    = new HashMap<>();
-  private Map<String, RoutableInterface> _post   = new HashMap<>();
-  private Map<String, RoutableInterface> _put    = new HashMap<>();
-  private Map<String, RoutableInterface> _delete = new HashMap<>();
+  private Map<String, Route> _get    = new HashMap<>();
+  private Map<String, Route> _post   = new HashMap<>();
+  private Map<String, Route> _put    = new HashMap<>();
+  private Map<String, Route> _delete = new HashMap<>();
   
-  public void route(Request.Method method, String route, RoutableInterface routable) {
+  public Route route(Request.Method method, String uri, RoutableInterface destination) {
+    Route route = new Route(method, uri, destination);
+    
     switch(method) {
-      case GET:    _get   .put(route, routable); break;
-      case POST:   _post  .put(route, routable); break;
-      case PUT:    _put   .put(route, routable); break;
-      case DELETE: _delete.put(route, routable); break;
+      case GET:    _get   .put(uri, route); break;
+      case POST:   _post  .put(uri, route); break;
+      case PUT:    _put   .put(uri, route); break;
+      case DELETE: _delete.put(uri, route); break;
     }
+    
+    return route;
   }
   
-  public void get(String route, RoutableInterface routable) {
-    route(Request.Method.GET, route, routable);
+  public void get(String uri, RoutableInterface destination) {
+    route(Request.Method.GET, uri, destination);
   }
   
-  public void post(String route, RoutableInterface routable) {
-    route(Request.Method.POST, route, routable);
+  public void post(String uri, RoutableInterface destination) {
+    route(Request.Method.POST, uri, destination);
   }
   
-  public void put(String route, RoutableInterface routable) {
-    route(Request.Method.PUT, route, routable);
+  public void put(String uri, RoutableInterface destination) {
+    route(Request.Method.PUT, uri, destination);
   }
   
-  public void delete(String route, RoutableInterface routable) {
-    route(Request.Method.DELETE, route, routable);
+  public void delete(String uri, RoutableInterface destination) {
+    route(Request.Method.DELETE, uri, destination);
   }
 }
