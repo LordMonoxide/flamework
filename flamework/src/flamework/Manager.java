@@ -24,6 +24,14 @@ public class Manager implements InitializerInterface {
       System.err.println("Server error:\n" + cause);
     });
     
+    _server.events().onBind(() -> {
+      System.out.println("Server bound.");
+    });
+    
+    _server.events().onClose(() -> {
+      System.out.println("Server closed.");
+    });
+    
     _server.events().onRequest(request -> {
       System.out.println("REQUEST:");
       System.out.println("HOST: " + request.host);
@@ -47,12 +55,6 @@ public class Manager implements InitializerInterface {
       System.out.println(request.content);
     });
     
-    _server.listen(4000, success -> {
-      System.out.println("Listen: " + success);
-      
-      /*_server.close(closeSuccess -> {
-        System.out.println("Closed: " + closeSuccess);
-      });*/
-    });
+    _server.listen(4000);
   }
 }
