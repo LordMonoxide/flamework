@@ -20,7 +20,7 @@ public class Loader extends ClassLoader {
     return (T)getClass(className, null).newInstance();
   }
   
-  public void addMapping(String request, String override) {
+  public void override(String request, String override) {
     _override.put(request, override);
   }
   
