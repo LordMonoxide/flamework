@@ -2,6 +2,7 @@ package app;
 
 import java.io.IOException;
 
+import flamework.routing.Route;
 import bootstrap.Loader;
 
 public class App {
@@ -30,9 +31,9 @@ public class App {
         System.err.println("Server close failed.");
       }
     }).onRequest(request -> {
-      System.out.println("REQUEST:");
+      /*System.out.println("REQUEST:");
       System.out.println("HOST: " + request.host);
-      System.out.println("ROUTE: " + request.route);
+      System.out.println("ROUTE: " + request.uri);
       
       System.out.println("HEADERS:");
       
@@ -49,7 +50,15 @@ public class App {
       
       System.out.println();
       System.out.println("CONTENT:");
-      System.out.println(request.content);
+      System.out.println(request.content);*/
+    });
+    
+    Route home = app.router.get("/", request -> {
+      System.out.println("HOME --------------------------------------");
+    });
+    
+    Route login = app.router.get("/login", request -> {
+      System.out.println("LOGIN --------------------------------------");
     });
     
     app.listen(4000);
