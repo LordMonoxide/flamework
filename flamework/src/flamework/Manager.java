@@ -22,10 +22,18 @@ public class Manager implements InitializerInterface {
     
     _server.events().onError(cause -> {
       System.err.println("Server error:\n" + cause);
-    }).onBind(() -> {
-      System.out.println("Server bound.");
-    }).onClose(() -> {
-      System.out.println("Server closed.");
+    }).onBind(success -> {
+      if(success) {
+        System.out.println("Server bound.");
+      } else {
+        System.err.println("Server bind failed.");
+      }
+    }).onClose(success -> {
+      if(success) {
+        System.out.println("Server closed.");
+      } else {
+        System.err.println("Server close failed.");
+      }
     }).onRequest(request -> {
       System.out.println("REQUEST:");
       System.out.println("HOST: " + request.host);

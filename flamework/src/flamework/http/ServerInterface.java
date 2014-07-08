@@ -31,22 +31,22 @@ public interface ServerInterface {
       }
     }
     
-    public void raiseBind() {
+    public void raiseBind(boolean success) {
       for(BindEvent callback : _bind) {
-        callback.execute();
+        callback.execute(success);
       }
     }
     
-    public void raiseClose() {
+    public void raiseClose(boolean success) {
       for(CloseEvent callback : _close) {
-        callback.execute();
+        callback.execute(success);
       }
     }
     
     public interface Event        { public void execute(boolean success); }
     public interface ErrorEvent   { public void execute(Throwable cause); }
-    public interface BindEvent    { public void execute(); }
-    public interface CloseEvent   { public void execute(); }
+    public interface BindEvent    { public void execute(boolean success); }
+    public interface CloseEvent   { public void execute(boolean success); }
     public interface RequestEvent { public void execute(Request request); }
   }
 }

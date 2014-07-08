@@ -40,7 +40,7 @@ public class Server implements ServerInterface {
         _events.raiseError(f.cause());
       }
       
-      _events.raiseBind();
+      _events.raiseBind(f.isSuccess());
     });
   }
   
@@ -54,7 +54,7 @@ public class Server implements ServerInterface {
         _events.raiseError(f.cause());
       }
       
-      _events.raiseClose();
+      _events.raiseClose(f.isSuccess());
     });
   }
   
