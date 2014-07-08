@@ -12,7 +12,7 @@ public class App implements InitializerInterface {
     
     loader.override("flamework.http.Server", "flamework.http.netty.Server");
     
-    InitializerInterface app = loader.create("flamework.Manager");
+    InitializerInterface app = loader.create("flamework.App");
     app.start();
   }
   
