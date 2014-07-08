@@ -24,19 +24,19 @@ public class Router {
     return route;
   }
   
-  public void get(String uri, RoutableInterface destination) {
-    route(Request.Method.GET, uri, destination);
+  public Route get(String uri, RoutableInterface destination) {
+    return route(Request.Method.GET, uri, destination);
   }
   
-  public void post(String uri, RoutableInterface destination) {
-    route(Request.Method.POST, uri, destination);
+  public Route post(String uri, RoutableInterface destination) {
+    return route(Request.Method.POST, uri, destination);
   }
   
-  public void put(String uri, RoutableInterface destination) {
-    route(Request.Method.PUT, uri, destination);
+  public Route put(String uri, RoutableInterface destination) {
+    return route(Request.Method.PUT, uri, destination);
   }
   
-  public void delete(String uri, RoutableInterface destination) {
-    route(Request.Method.DELETE, uri, destination);
+  public Route delete(String uri, RoutableInterface destination) {
+    return route(Request.Method.DELETE, uri, destination);
   }
 }
