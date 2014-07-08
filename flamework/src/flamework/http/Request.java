@@ -7,13 +7,15 @@ import java.util.Map;
 
 public abstract class Request {
   public final String  host;
+  public final Method  method;
   public final String  route;
   public final Headers headers;
   public final Params  params;
   public final String  content;
   
-  protected Request(String host, String route, Headers headers, Params params, String content) {
+  protected Request(String host, Method method, String route, Headers headers, Params params, String content) {
     this.host    = host;
+    this.method  = method;
     this.route   = route;
     this.headers = headers;
     this.params  = params;
@@ -52,5 +54,9 @@ public abstract class Request {
   
   public interface AdderCallback<K, V> {
     public void add(ImmutableMap<K, V>.Add map);
+  }
+  
+  public enum Method {
+    GET, POST, PUT, DELETE;
   }
 }
