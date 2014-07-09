@@ -1,5 +1,7 @@
 package flamework.http.netty;
 
+import java.util.Map;
+
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
@@ -21,6 +23,10 @@ public class Response extends flamework.http.Response {
     if(keepAlive) {
       response.headers().set(HttpHeaders.Names.CONTENT_LENGTH, response.content().readableBytes());
       response.headers().set(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
+    }
+    
+    for(Map.Entry<String, String> header : headers.entrySet()) {
+      response.headers().add(header.getKey(), header.getValue());
     }
     
     r.ctx.write(response);
