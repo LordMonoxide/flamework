@@ -2,6 +2,7 @@ package app;
 
 import java.io.IOException;
 
+import app.views.Login;
 import flamework.routing.Route;
 import bootstrap.Loader;
 
@@ -15,6 +16,8 @@ public class App {
   
   public App() {
     flamework.App app = new flamework.App();
+    
+    app.settings.views.directory = "../views";
     
     app.events.onError(cause -> {
       System.err.println("Server error:\n" + cause);
@@ -36,7 +39,7 @@ public class App {
     
     Route login = app.router.get("/login", request -> {
       System.out.println("LOGIN --------------------------------------");
-      return app.responder.respond("Login");
+      return app.responder.view(new Login());
     });
     
     Route home = app.router.get("/", request -> {

@@ -9,6 +9,7 @@ import flamework.routing.Router;
 
 public class App {
   private ServerInterface _server;
+  public final Settings settings = new Settings();
   public final Events events;
   public final Router router = new Router();
   public final Responder responder;

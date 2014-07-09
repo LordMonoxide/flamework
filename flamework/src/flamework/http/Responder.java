@@ -23,4 +23,8 @@ public class Responder {
     response.headers.put(HttpHeaders.Names.LOCATION, route.uri);
     return response;
   }
+  
+  public Response view(View view) {
+    return respond(view.build());
+  }
 }
