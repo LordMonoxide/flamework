@@ -1,7 +1,8 @@
 package flamework.routing;
 
 import flamework.http.Request;
+import flamework.http.Response;
 
 public interface RoutableInterface {
-  public void execute(Request request);
+  public Response execute(Request request);
 }

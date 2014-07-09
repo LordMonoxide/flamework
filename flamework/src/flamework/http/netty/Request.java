@@ -3,12 +3,16 @@ package flamework.http.netty;
 import java.util.List;
 import java.util.Map;
 
+import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpRequest;
 
 public class Request extends flamework.http.Request {
-  protected Request(HttpRequest request, Map<String, List<String>> params, String content) {
+  public final HttpRequest nettyRequest;
+  public final ChannelHandlerContext ctx;
+  
+  protected Request(HttpRequest request, Map<String, List<String>> params, String content, ChannelHandlerContext ctx) {
     super(HttpHeaders.getHost(request, "unknown"), methodFromRequest(request), request.uri(), new Request.Headers(adder -> {
       for(Map.Entry<String, String> e : request.headers()) {
         adder.add(e.getKey(), e.getValue());
@@ -18,6 +22,9 @@ public class Request extends flamework.http.Request {
         adder.add(e.getKey(), e.getValue());
       }
     }), content);
+    
+    this.nettyRequest = request;
+    this.ctx = ctx;
   }
   
   private static Method methodFromRequest(HttpRequest request) {

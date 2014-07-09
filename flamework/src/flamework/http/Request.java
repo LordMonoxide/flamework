@@ -21,6 +21,10 @@ public abstract class Request {
     this.params  = params;
     this.content = content;
   }
+  
+  public void respond(Response response) {
+    response.send(this);
+  }
 
   public static class Headers extends ImmutableMap<String, String> {
     public Headers(AdderCallback<String, String> callback) { super(callback); }

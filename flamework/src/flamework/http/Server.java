@@ -20,4 +20,8 @@ public class Server implements ServerInterface {
   @Override public void destroy() {
     
   }
+  
+  @Override public Response newResponse() {
+    return null;
+  }
 }

@@ -7,6 +7,7 @@ public interface ServerInterface {
   public void listen(int port);
   public void close();
   public void destroy();
+  public Response newResponse();
   
   public final class Events {
     private final ConcurrentLinkedQueue<ErrorEvent  > _error   = new ConcurrentLinkedQueue<>();

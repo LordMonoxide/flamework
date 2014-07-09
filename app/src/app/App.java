@@ -55,10 +55,12 @@ public class App {
     
     Route home = app.router.get("/", request -> {
       System.out.println("HOME --------------------------------------");
+      return app.responder.respond("Home");
     });
     
     Route login = app.router.get("/login", request -> {
       System.out.println("LOGIN --------------------------------------");
+      return app.responder.respond("Login");
     });
     
     app.listen(4000);

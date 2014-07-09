@@ -1,5 +1,7 @@
 package flamework;
 
+import flamework.http.Responder;
+import flamework.http.Response;
 import flamework.http.Server;
 import flamework.http.ServerInterface;
 import flamework.http.ServerInterface.Events;
@@ -9,13 +11,16 @@ public class App {
   private ServerInterface _server;
   public final Events events;
   public final Router router = new Router();
+  public final Responder responder;
   
   public App() {
     _server = new Server();
     events  = _server.events();
+    responder = new Responder(_server);
     
     events.onRequest(request -> {
-      router.dispatch(request);
+      Response response = router.dispatch(request);
+      response.send(request);
     });
   }
   

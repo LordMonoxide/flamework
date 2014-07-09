@@ -64,15 +64,15 @@ public class Handler extends SimpleChannelInboundHandler<HttpObject> {
       }
       
       if(msg instanceof LastHttpContent) {
-        LastHttpContent trailer = (LastHttpContent)msg;
+        //LastHttpContent trailer = (LastHttpContent)msg;
         
-        _events.raiseRequest(new Request(request, new QueryStringDecoder(request.uri()).parameters(), _content.toString()));
+        _events.raiseRequest(new Request(request, new QueryStringDecoder(request.uri()).parameters(), _content.toString(), ctx));
         
-        if(!writeResponse(trailer, ctx)) {
+        /*if(!writeResponse(trailer, ctx)) {
           // If keep-alive is off, close the connection once the content is
           // fully written.
           ctx.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
-        }
+        }*/
       }
     }
   }

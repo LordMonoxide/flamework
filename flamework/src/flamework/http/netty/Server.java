@@ -62,4 +62,8 @@ public class Server implements ServerInterface {
     _bossGroup.shutdownGracefully();
     _workGroup.shutdownGracefully();
   }
+  
+  @Override public Response newResponse() {
+    return new Response();
+  }
 }

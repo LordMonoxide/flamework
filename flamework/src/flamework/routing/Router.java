@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import flamework.http.Request;
+import flamework.http.Response;
 
 public class Router {
   private Map<String, Route> _get    = new HashMap<>();
@@ -11,7 +12,7 @@ public class Router {
   private Map<String, Route> _put    = new HashMap<>();
   private Map<String, Route> _delete = new HashMap<>();
   
-  public void dispatch(Request request) {
+  public Response dispatch(Request request) {
     Route route = null;
     
     switch(request.method) {
@@ -22,8 +23,10 @@ public class Router {
     }
     
     if(route != null) {
-      route.destination.execute(request);
+      return route.destination.execute(request);
     }
+    
+    return null;
   }
   
   public Route route(Request.Method method, String uri, RoutableInterface destination) {
