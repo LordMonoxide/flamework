@@ -21,7 +21,6 @@ public class Responder {
     Response response = _server.newResponse();
     response.status = 302;
     response.headers.put(HttpHeaders.Names.LOCATION, route.uri);
-    response.content = "";
     return response;
   }
 }

@@ -17,7 +17,7 @@ public class Response extends flamework.http.Response {
     
     boolean keepAlive = HttpHeaders.isKeepAlive(r.nettyRequest);
     
-    FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.valueOf(status), Unpooled.copiedBuffer(content, CharsetUtil.UTF_8));
+    FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.valueOf(status), content != null ? Unpooled.copiedBuffer(content, CharsetUtil.UTF_8) : Unpooled.EMPTY_BUFFER);
     response.headers().set(HttpHeaders.Names.CONTENT_TYPE, "text/plain; charset=UTF-8");
     
     if(keepAlive) {
