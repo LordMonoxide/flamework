@@ -31,26 +31,7 @@ public class App {
         System.err.println("Server close failed.");
       }
     }).onRequest(request -> {
-      /*System.out.println("REQUEST:");
-      System.out.println("HOST: " + request.host);
-      System.out.println("ROUTE: " + request.uri);
       
-      System.out.println("HEADERS:");
-      
-      request.headers.forEach(entry -> {
-        System.out.println(entry.getKey() + " -> " + entry.getValue());
-      });
-      
-      System.out.println();
-      System.out.println("PARAMS:");
-      
-      request.params.forEach(entry -> {
-        System.out.println(entry.getKey() + " -> " + entry.getValue());
-      });
-      
-      System.out.println();
-      System.out.println("CONTENT:");
-      System.out.println(request.content);*/
     });
     
     Route home = app.router.get("/", request -> {
