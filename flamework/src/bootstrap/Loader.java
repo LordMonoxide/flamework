@@ -45,7 +45,7 @@ public class Loader extends ClassLoader {
     
     System.out.println("Loading class '" + name + '\'');
     
-    if(name.startsWith("java")) {
+    if(name.startsWith("java") || name.startsWith("sun.")) {
       return super.loadClass(name, false);
     }
     
