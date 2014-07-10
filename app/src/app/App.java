@@ -15,6 +15,7 @@ public class App {
     Loader loader = new Loader(Loader.class.getClassLoader());
     
     loader.override("flamework.http.Server", "flamework.http.netty.Server");
+    loader.override("flamework.sql.Database", "flamework.sql.MySQL");
     loader.create("app.App");
   }
   
@@ -47,7 +48,7 @@ public class App {
     });
     
     try {
-      Database db = new MySQL(app.settings);
+      Database db = new Database(app.settings);
       
       ResultSet user = db.table("users").select().where("email", "corey@narwhunderful.com").get();
       while(user.next()) {

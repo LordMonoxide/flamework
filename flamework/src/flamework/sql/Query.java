@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Query {
-  private Database _database;
+  private DatabaseInterface _database;
   private String _query;
   private List<Where> _where = new ArrayList<>();
   
-  Query(Database database, String query) {
+  Query(DatabaseInterface database, String query) {
     _database = database;
     _query = query;
   }
