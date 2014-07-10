@@ -1,9 +1,13 @@
 package app;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import app.views.Login;
 import flamework.routing.Route;
+import flamework.sql.Database;
+import flamework.sql.MySQL;
 import bootstrap.Loader;
 
 public class App {
@@ -16,6 +20,11 @@ public class App {
   
   public App() {
     flamework.App app = new flamework.App();
+    
+    app.settings.database.host = "localhost";
+    app.settings.database.database = "juxxi";
+    app.settings.database.username = "root";
+    app.settings.database.password = "";
     
     app.settings.views.directory = "../views";
     
@@ -36,6 +45,17 @@ public class App {
     }).onRequest(request -> {
       
     });
+    
+    try {
+      Database db = new MySQL(app.settings);
+      
+      ResultSet user = db.table("users").select().where("email", "corey@narwhunderful.com").get();
+      while(user.next()) {
+        System.out.println(user.getString("email"));
+      }
+    } catch(SQLException e) {
+      e.printStackTrace();
+    }
     
     Route login = app.router.get("/login", request -> {
       System.out.println("LOGIN --------------------------------------");
