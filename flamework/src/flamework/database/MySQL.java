@@ -1,4 +1,4 @@
-package flamework.sql;
+package flamework.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

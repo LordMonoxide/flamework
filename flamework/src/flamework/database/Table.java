@@ -1,4 +1,4 @@
-package flamework.sql;
+package flamework.database;
 
 public class Table {
   private DatabaseInterface _database;
