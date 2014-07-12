@@ -66,7 +66,7 @@ public class Loader extends ClassLoader {
       ClassRewriter r = new ClassRewriter(getClass().getClassLoader().getResourceAsStream(file));
       r.parse();
       r.rewrite(override.replace('.', '/'), name.replace('.', '/'));
-      r.rewrite(override.substring(override.lastIndexOf('.') + 1), name.substring(name.lastIndexOf('.') + 1));
+      r.rewrite(override.substring(override.lastIndexOf('.') + 1) + ".java", name.substring(name.lastIndexOf('.') + 1) + ".java");
       b = r.commit();
     } else {
       b = loadClassData(file);
@@ -79,7 +79,6 @@ public class Loader extends ClassLoader {
   
   private byte[] loadClassData(String name) throws IOException {
     InputStream stream = getClass().getClassLoader().getResourceAsStream(name);
-    System.out.println(name);
     int size = stream.available();
     byte buff[] = new byte[size];
     DataInputStream in = new DataInputStream(stream);

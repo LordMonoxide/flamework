@@ -32,7 +32,7 @@ public class ConstantUTF8Info extends ConstantPool {
   }
   
   public void replace(String from, String to) throws UnsupportedEncodingException {
-    data   = toString().replace(from, to).getBytes("UTF-8");
+    data   = toString().replaceFirst(from + "\\b", to).getBytes("UTF-8");
     length = (short)data.length;
   }
   
