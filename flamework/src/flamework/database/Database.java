@@ -12,4 +12,8 @@ public class Database implements DatabaseInterface {
   @Override public void transact(DatabaseTransactionCallback callback) {
     
   }
+  
+  @Override public Table table(String name) {
+    return null;
+  }
 }

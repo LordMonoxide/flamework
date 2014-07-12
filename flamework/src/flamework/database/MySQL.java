@@ -16,9 +16,11 @@ public class MySQL implements DatabaseInterface {
   }
   
   private final Settings _settings;
+  private Connection _connection;
   
   public MySQL(Settings settings) throws SQLException {
     _settings = settings;
+    _connection = createConnection();
   }
   
   private Connection createConnection() throws SQLException {
@@ -27,9 +29,12 @@ public class MySQL implements DatabaseInterface {
     );
   }
   
+  @Override public Table table(String name) {
+    return new Table(new MySQLTransaction(_connection), name);
+  }
+  
   @Override public void transact(DatabaseTransactionCallback callback) throws SQLException {
-    Connection connection = createConnection();
-    callback.execute(new MySQLTransaction(connection));
-    connection.close();
+    //TODO: Add actual transaction stuff
+    callback.execute(new MySQLTransaction(_connection));
   }
 }

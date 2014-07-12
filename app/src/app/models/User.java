@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import flamework.App;
 import flamework.database.Model;
 
-public class User extends Model<User, String> {
+public class User extends Model<User, Integer> {
   private int _id;
   private String _email;
   private String _password;
@@ -15,18 +15,15 @@ public class User extends Model<User, String> {
     super(app);
   }
   
-  @Override public User get(String id) {
-    _app.database.transact(transaction -> {
-      ResultSet r = transaction.table("users").select().where("email", id).get();
-      if(r.next()) {
-        fromResultSet(r);
-      }
-    });
-    
-    return null;
+  @Override public String table() {
+    return "users";
   }
   
-  private void fromResultSet(ResultSet r) throws SQLException {
+  @Override public String key() {
+    return "id";
+  }
+  
+  @Override public void fromResultSet(ResultSet r) throws SQLException {
     _id       = r.getInt("id");
     _email    = r.getString("email");
     _password = r.getString("password");

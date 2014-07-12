@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import app.models.User;
 import app.views.Login;
+import flamework.database.Model;
 import flamework.routing.Route;
 import bootstrap.Loader;
 
@@ -46,8 +47,10 @@ public class App {
       
     });
     
-    User u = new User(app);
-    u.get("corey@narwhunderful.com");
+    User u = app.modeler.get(User.class).where("email", "corey@narwhunderful.com").get();
+    
+    //User u = new User(app);
+    //u.get("corey@narwhunderful.com");
     System.out.println(u.id() + ": " + u.email());
     
     Route login = app.router.get("/login", request -> {

@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 public interface DatabaseInterface {
   void transact(DatabaseTransactionCallback callback) throws SQLException;
+  Table table(String name);
   
   public interface DatabaseTransaction {
     Table table(String name);

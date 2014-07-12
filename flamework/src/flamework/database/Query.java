@@ -8,20 +8,20 @@ import java.util.List;
 public class Query {
   private DatabaseInterface.DatabaseTransaction _database;
   private String _query;
-  private List<Where> _where = new ArrayList<>();
+  private List<Where<?>> _where = new ArrayList<>();
   
   Query(DatabaseInterface.DatabaseTransaction database, String query) {
     _database = database;
     _query = query;
   }
   
-  public Query where(String column, String operator, String value) {
-    _where.add(new Where(column, operator, value));
+  public <T> Query where(String column, String operator, T value) {
+    _where.add(new Where<T>(column, operator, value));
     return this;
   }
   
-  public Query where(String column, String value) {
-    _where.add(new Where(column, value));
+  public <T> Query where(String column, T value) {
+    _where.add(new Where<T>(column, value));
     return this;
   }
   
@@ -33,7 +33,7 @@ public class Query {
       builder.append(" WHERE ");
       
       for(int i = 0; i < _where.size(); i++) {
-        Where where = _where.get(i);
+        Where<?> where = _where.get(i);
         
         if(i != 0) {
           builder.append(" AND ");
@@ -54,18 +54,18 @@ public class Query {
     return _database.query(build());
   }
   
-  private class Where {
+  private class Where<T> {
     private final String column;
     private final String operator;
-    private final String value;
+    private final T      value;
     
-    private Where(String column, String operator, String value) {
+    private Where(String column, String operator, T value) {
       this.column   = column;
       this.operator = operator;
       this.value    = value;
     }
     
-    private Where(String column, String value) {
+    private Where(String column, T value) {
       this(column, "=", value);
     }
   }
