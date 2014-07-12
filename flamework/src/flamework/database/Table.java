@@ -1,10 +1,10 @@
 package flamework.database;
 
 public class Table {
-  private DatabaseInterface _database;
+  private DatabaseInterface.DatabaseTransaction _database;
   public final String name;
   
-  Table(DatabaseInterface database, String name) {
+  Table(DatabaseInterface.DatabaseTransaction database, String name) {
     _database = database;
     this.name = name;
   }

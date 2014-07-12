@@ -1,11 +1,17 @@
 package flamework.database;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public interface DatabaseInterface {
-  Connection createConnection(String host, String database, String username, String password) throws SQLException;
-  Table table(String name);
-  ResultSet query(String sql) throws SQLException;
+  void transact(DatabaseTransactionCallback callback) throws SQLException;
+  
+  public interface DatabaseTransaction {
+    Table table(String name);
+    ResultSet query(String sql) throws SQLException;
+  }
+  
+  public interface DatabaseTransactionCallback {
+    public void execute(DatabaseTransaction transaction) throws SQLException;
+  }
 }

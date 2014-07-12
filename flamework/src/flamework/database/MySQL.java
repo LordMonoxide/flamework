@@ -16,29 +16,33 @@ public class MySQL implements DatabaseInterface {
       e.printStackTrace();
     }
   }
-
-  private final Connection _connection;
   
-  public MySQL(String host, String database, String username, String password) throws SQLException {
-    _connection = createConnection(host, database, username, password);
-  }
+  private final Settings _settings;
   
   public MySQL(Settings settings) throws SQLException {
-    this(settings.database.host, settings.database.database, settings.database.username, settings.database.password);
+    _settings = settings;
   }
-
-  @Override public Connection createConnection(String host, String database, String username, String password) throws SQLException {
+  
+  private Connection createConnection() throws SQLException {
     return DriverManager.getConnection(
-      "jdbc:mysql://" + host + '/' + database + "?user=" + username + "&password=" + password
+      "jdbc:mysql://" + _settings.database.host + '/' + _settings.database.database + "?user=" + _settings.database.username + "&password=" + _settings.database.password
     );
   }
   
-  @Override public Table table(String name) {
-    return new Table(this, name);
-  }
-  
-  @Override public ResultSet query(String sql) throws SQLException {
-    Statement s = _connection.createStatement();
-    return s.executeQuery(sql);
+  @Override public void transact(DatabaseTransactionCallback callback) throws SQLException {
+    Connection connection = createConnection();
+    
+    callback.execute(new DatabaseTransaction() {
+      @Override public Table table(String name) {
+        return new Table(this, name);
+      }
+      
+      @Override public ResultSet query(String sql) throws SQLException {
+        Statement s = connection.createStatement();
+        return s.executeQuery(sql);
+      }
+    });
+    
+    connection.close();
   }
 }

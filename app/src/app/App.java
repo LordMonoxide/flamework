@@ -1,25 +1,24 @@
 package app;
 
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import app.models.User;
 import app.views.Login;
 import flamework.routing.Route;
-import flamework.sql.Database;
-import flamework.sql.MySQL;
 import bootstrap.Loader;
 
 public class App {
   public static void main(String[] args) throws InstantiationException, IllegalAccessException, ClassNotFoundException, IOException {
     Loader loader = new Loader(Loader.class.getClassLoader());
     
-    loader.override("flamework.http.Server", "flamework.http.netty.Server");
-    loader.override("flamework.sql.Database", "flamework.sql.MySQL");
+    loader.override("flamework.http.Server",       "flamework.http.netty.Server");
+    loader.override("flamework.database.Database", "flamework.database.MySQL");
+    loader.override("flamework.database.Model",    "flamework.database.DatabaseModel");
     loader.create("app.App");
   }
   
-  public App() {
+  public App() throws SQLException {
     flamework.App app = new flamework.App();
     
     app.settings.database.host = "localhost";
@@ -47,16 +46,9 @@ public class App {
       
     });
     
-    try {
-      Database db = new Database(app.settings);
-      
-      ResultSet user = db.table("users").select().where("email", "corey@narwhunderful.com").get();
-      while(user.next()) {
-        System.out.println(user.getString("email"));
-      }
-    } catch(SQLException e) {
-      e.printStackTrace();
-    }
+    User u = new User(app);
+    u.get("corey@narwhunderful.com");
+    System.out.println(u.id() + ": " + u.email());
     
     Route login = app.router.get("/login", request -> {
       System.out.println("LOGIN --------------------------------------");

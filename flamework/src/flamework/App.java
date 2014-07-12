@@ -1,5 +1,8 @@
 package flamework;
 
+import java.sql.SQLException;
+
+import flamework.database.Database;
 import flamework.http.Responder;
 import flamework.http.Response;
 import flamework.http.Server;
@@ -13,11 +16,13 @@ public class App {
   public final Events events;
   public final Router router = new Router();
   public final Responder responder;
+  public final Database database;
   
-  public App() {
+  public App() throws SQLException {
     _server = new Server();
     events  = _server.events();
     responder = new Responder(_server);
+    database = new Database(settings);
     
     events.onRequest(request -> {
       Response response = router.dispatch(request);
