@@ -2,9 +2,7 @@ package flamework.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import flamework.Settings;
 
@@ -31,18 +29,7 @@ public class MySQL implements DatabaseInterface {
   
   @Override public void transact(DatabaseTransactionCallback callback) throws SQLException {
     Connection connection = createConnection();
-    
-    callback.execute(new DatabaseTransaction() {
-      @Override public Table table(String name) {
-        return new Table(this, name);
-      }
-      
-      @Override public ResultSet query(String sql) throws SQLException {
-        Statement s = connection.createStatement();
-        return s.executeQuery(sql);
-      }
-    });
-    
+    callback.execute(new MySQLTransaction(connection));
     connection.close();
   }
 }

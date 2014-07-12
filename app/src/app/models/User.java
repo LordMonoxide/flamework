@@ -18,7 +18,9 @@ public class User extends Model<User, String> {
   @Override public User get(String id) {
     _app.database.transact(transaction -> {
       ResultSet r = transaction.table("users").select().where("email", id).get();
-      fromResultSet(r);
+      if(r.next()) {
+        fromResultSet(r);
+      }
     });
     
     return null;
